@@ -22,14 +22,13 @@ router.post('/logout', authmiddleware.userAuth, authControllers.postLogout);
 // view account user
 router.get('/user', authmiddleware.userAuth, authControllers.getUser);
 router.get('/user/:id', authmiddleware.userAuth, authControllers.getUserId);
-
-router.delete('/user/:id', authControllers.deleteUserId);
 // edit user
 // router.put('/user:id',authControllers.puteituser)
-router.put('/edit/:id', authmiddleware.userAuth, authControllers.userEdit);
+router.put('/edit/:id',  authControllers.userEdit);
 
 // delete user
-router.get('/del/:id', authmiddleware.userAuth, authControllers.getDelId);
+// ta dang sua cai nay ne
+router.delete('/del/:id', authControllers.getDelId);
 
 // add user
 router.get('/add', authmiddleware.userAuth, authControllers.getAdd);

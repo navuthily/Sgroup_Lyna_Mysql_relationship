@@ -73,18 +73,15 @@ const getUserId = async (req, res) => {
   });
 };
 
-// edit user
+// edit user dang sua ne
 const userEdit = async (req, res) => {
-  await knex('users')
-    .where({
-      id: req.params.id,
-    })
-    .update({
-      fullname: req.body.fullname,
-      username: req.body.username,
-      email: req.body.email,
-
-    });
+  await knex('users').where({
+    id: req.params.user_id,
+  }).update({
+    fullname: req.body.fullname,
+    username: req.body.username,
+    email: req.body.email,
+  });
   return res.redirect('/users');
 };
 // delete user
@@ -102,19 +99,6 @@ const getDelId = async function (req, res) {
       id: req.params.id,
     })
     .del();
-  return res.redirect('/users');
-};
-
-const puteituser = async function (req, res) {
-  await knex('users')
-    .where({
-      id: req.params.id,
-    })
-    .update({
-      fullname: req.body.fullname,
-      username: req.body.username,
-      email: req.body.email,
-    });
   return res.redirect('/users');
 };
 // add user
@@ -146,7 +130,6 @@ module.exports = {
   deleteUserId,
   getDelId,
   userEdit,
-  puteituser,
   postAdd,
   getAdd,
 };
