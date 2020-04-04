@@ -1,0 +1,272 @@
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex, nofollow">
+
+  <title>Products_Type</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet"
+    id="bootstrap-css">
+  <style type="text/css">
+    .row {
+      margin-top: 40px;
+      padding: 0 10px;
+    }
+
+    .clickable {
+      cursor: pointer;
+    }
+
+    .panel-heading div {
+      margin-top: -18px;
+      font-size: 15px;
+    }
+
+    .panel-heading div span {
+      margin-left: 5px;
+    }
+
+    .panel-body {
+      display: none;
+    }
+  </style>
+  <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+  <script src="https://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+  <script type="text/javascript">
+    window.alert = function () {};
+    var defaultCSS = document.getElementById('bootstrap-css');
+
+    function changeCSS(css) {
+      if (css) $('head > link').filter(':first').replaceWith('<link rel="stylesheet" href="' + css +
+        '" type="text/css" />');
+      else $('head > link').filter(':first').replaceWith(defaultCSS);
+    }
+    $(document).ready(function () {
+      var iframe_height = parseInt($('html').height());
+      window.parent.postMessage(iframe_height, 'https://bootsnipp.com');
+    });
+  </script>
+</head>
+
+<body>
+  <h1>
+    <!-- <div class="text-center">
+      <div class="container nav ">
+        <form action="/products" method="get"><button class="btn btn-primary">Home </button></form>
+        <form action="/product" method="get"><button class="btn btn-primary">My account </button></form>
+        <form class="pl-6 float-right" action="/logout" method="POST"> <button class="btn btn-primary float-right"> Log
+                out
+            </button>
+        </form>
+    </div> -->
+    <nav class="  navbar">
+      <div class="container-fluid ">
+
+        <ul class="nav navbar-nav">
+          <li class="active"><a href="/products" class="btn btn-primary">Home</a></li>
+
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="/product" class="btn btn-primary"><span class="glyphicon glyphicon-product"></span> My account</a></li>
+          <li><a href="/log
+            
+            in" class="btn btn-primary"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+        </ul>
+      </div>
+    </nav>
+    <hr class="hr-light">
+    </div>
+  </h1>
+  <div class="container">
+
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <h3 class="panel-title">product_type</h3>
+        <div class="pull-right">
+          <span class="clickable filter" data-toggle="tooltip" title="" data-container="body"
+            data-original-title="Toggle table filter">
+
+            <i class="glyphicon glyphicon-filter"></i>
+          </span>
+        </div>
+      </div>
+      <div class="panel-body" style="display: block;">
+        <input type="text" class="form-control" id="dev-table-filter" data-action="filter" data-filters="#dev-table"
+          placeholder="Filter ">
+      </div>
+
+      <table class="table table-striped table-hover" id="dev-table">
+        <thead class="thead-dark">
+          <tr>
+            <th scope='col'> Products_Id</th>
+            <th scope='col'> Products_Name</th>
+            <th scope='col'>Describe</th>
+            <th scope='col'>Price</th>
+            <th scope='col'>Product_Type_Name</th>
+            <th scope="col">Creater</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% products.forEach(function(product) { %>
+          <tr>
+            <td><%= product.id%></td>
+            <td><%= product.product_name %></td>
+            <td><%= product.describe %></td>
+            <td><%= product.price %></td>
+            <td> <a href="/product/<%=product.id%>" method="GET"> view product </a></td>
+
+            <td>
+              <!-- Button trigger modal -->
+              <button type="button" class="btn btn-primary" data-toggle="modal"
+                data-target="#staticBackdropEdit<%= product.id %>">
+                Edit product
+              </button>
+
+              <!-- Modal edit product can co them phan input value -->
+              <div class="modal fade" id="staticBackdropEdit<%= product.id %>" tabindex="-1" role="dialog"
+                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+
+                  <form class="modal-content" role="form" method="POST" action="/edit/<%= product.id %>?_method=PUT">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">Edit product</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+
+                      <div class="form-group">
+                        <label for="exampleInputEmail1">Product name</label>
+                        <input type="text" class="form-control" name="product_name" placeholder="">
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleInputEmail1">Discribe</label>
+                        <input type="text" class="form-control" name="describe">
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleInputEmail1">Price</label>
+                        <input type="text" class="form-control" name="price">
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                      <input type="hidden" name="_method" value="PUT">
+                      <button type="submit" class="btn btn-primary">Update</button>
+                    </div>
+                  </form>
+
+                </div>
+              </div>
+            </td>
+
+            <td>
+              <!-- modal delete-->
+              <!-- Button trigger modal -->
+              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModaldelete">
+                Delete
+              </button>
+
+              <!-- Modal -->
+              <div class="modal fade" id="exampleModaldelete" tabindex="-1" role="dialog"
+                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+
+                  <form class="modal-content" role="form" method="POST" action="/del/<%= product.id %>"
+                    enctype="application/x-www-form-urlencoded">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      ...
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                      <input type="hidden" name="_method" value="DELETE">
+
+                      <button type="submit" class="btn btn-primary">Delete</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+              <!-- modal delete-->
+            </td>
+          </tr>
+          <% }); %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  </div>
+  <script type="text/javascript">
+    /**
+     *   I don't recommend using this plugin on large tables, I just wrote it to make the demo useable. It will work fine for smaller tables 
+     *   but will likely encounter performance issues on larger tables.
+     *
+     *		<input type="text" class="form-control" id="dev-table-filter" data-action="filter" data-filters="#dev-table" placeholder="Filter Developers" />
+     *		$(input-element).filterTable()
+     *		
+     *	The important attributes are 'data-action="filter"' and 'data-filters="#table-selector"'
+     */
+    (function () {
+      'use strict';
+      var $ = jQuery;
+      $.fn.extend({
+        filterTable: function () {
+          return this.each(function () {
+            $(this).on('keyup', function (e) {
+              $('.filterTable_no_results').remove();
+              var $this = $(this),
+                search = $this.val().toLowerCase(),
+                target = $this.attr('data-filters'),
+                $target = $(target),
+                $rows = $target.find('tbody tr');
+
+              if (search == '') {
+                $rows.show();
+              } else {
+                $rows.each(function () {
+                  var $this = $(this);
+                  $this.text().toLowerCase().indexOf(search) === -1 ? $this.hide() : $this.show();
+                })
+                if ($target.find('tbody tr:visible').size() === 0) {
+                  var col_count = $target.find('tr').first().find('td').size();
+                  var no_results = $('<tr class="filterTable_no_results"><td colspan="' + col_count +
+                    '">No results found</td></tr>')
+                  $target.find('tbody').append(no_results);
+                }
+              }
+            });
+          });
+        }
+      });
+      $('[data-action="filter"]').filterTable();
+    })(jQuery);
+
+    $(function () {
+      // attach table filter plugin to inputs
+      $('[data-action="filter"]').filterTable();
+
+      $('.container').on('click', '.panel-heading span.filter', function (e) {
+        var $this = $(this),
+          $panel = $this.parents('.panel');
+
+        $panel.find('.panel-body').slideToggle();
+        if ($this.css('display') != 'none') {
+          $panel.find('.panel-body input').focus();
+        }
+      });
+      $('[data-toggle="tooltip"]').tooltip();
+    })
+  </script>
+
+
+  <div id="eJOY__extension_root" style="all: unset;"></div>
+</body>
+
+</html>

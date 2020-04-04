@@ -217,7 +217,8 @@
         <form action="/user" method="get"><button class="btn btn-primary">My account </button></form>
         <form class="pl-6 float-right" action="/logout" method="POST"> <button class="btn btn-primary float-right"> Log
                 out
-            </button></form>
+            </button>
+        </form>
     </div>
     <div class="container">
         <form class="table-wrapper">
@@ -255,7 +256,7 @@
                         <td>
                             <!-- Button trigger modal -->
                             <button type="button" class="btn btn-primary" data-toggle="modal"
-                            data-target="#staticBackdropEdit<%= user.id %>">
+                                data-target="#staticBackdropEdit<%= user.id %>">
                                 Edit user
                             </button>
 
@@ -264,7 +265,8 @@
                                 aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
 
-                                    <form class="modal-content" role="form" method="POST" action="/edit/<%= user.id %>?_method=PUT">
+                                    <form class="modal-content" role="form" method="POST"
+                                        action="/edit/<%= user.id %>?_method=PUT">
                                         <div class="modal-header">
                                             <h5 class="modal-title" id="exampleModalLabel">Edit user</h5>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -299,13 +301,13 @@
                                 </div>
                             </div>
                         </td>
-                    
+
                         <td>
                             <!-- modal delete-->
                             <!-- Button trigger modal -->
                             <button type="button" class="btn btn-primary" data-toggle="modal"
                                 data-target="#exampleModaldelete">
-                                Delete 
+                                Delete
                             </button>
 
                             <!-- Modal -->
@@ -343,17 +345,6 @@
             <a type="button" class="btn btn-primary" method='get' href="/add">
                 Add user
             </a>
-
-
-
-            <% users.forEach(function(user) { %>
-            <!--model-->
-
-            <!--end model-->
-            <% }); %>
-
-
-
             <div class="clearfix">
                 <ul class="pagination">
                     <li class="page-item disabled"><a href="#">Previous</a></li>
