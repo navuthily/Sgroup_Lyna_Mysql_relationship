@@ -39,15 +39,18 @@ router.get('/product_type/add', authmiddleware.userAuth, async function (req, re
   });
 })
 router.post('/product_type/add', authmiddleware.userAuth, async function (req, res) {
+
   await knex('Product_type').insert({
     product_type_name: req.body.product_type_name,
-    user_id: 17
+    user_id: req.session.id
   });
   return res.redirect('/product_type');
 
 })
 router.get('/product_type', authmiddleware.userAuth, async function (req, res) {
-  const products_type = await knex('product_type');
+ 
+ // const products_type =  await knex('Product_type').leftJoin('users', 'Product_type.user_id ', 'users.id');
+ const products_type = await knex('product_type');
   res.render('product_type', {
     title: 'product_type',
     products_type
@@ -66,13 +69,14 @@ router.post('/products/add', authmiddleware.userAuth, async function (req, res) 
     product_name: req.body.product_name,
     describe:req.body.describe,
     price: req.body.price,
-    product_type_id: 1//
+    product_type_id: 1//i don't know this
   });
 
   return res.redirect('/products');
 
 })
 router.get('/products', authmiddleware.userAuth, async function (req, res) {
+ // const products =  await knex('products').leftJoin('Product_type', 'Products.product_type_id ', 'Product_type.id');
   const products = await knex('products');
   res.render('products', {
     title: 'products',
@@ -149,9 +153,9 @@ router.delete('/del/product_type/:id', authmiddleware.userAuth,  async function 
     .del();
   return res.redirect('/product_type');
 });
-//
+// bat dau cai moi ne
 
+//tiếp nữa nè
 
-// edit user dang sua ne
 module.exports = router;
 
