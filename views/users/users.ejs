@@ -256,17 +256,17 @@
                         <td>
                             <!-- Button trigger modal -->
                             <button type="button" class="btn btn-primary" data-toggle="modal"
-                                data-target="#staticBackdropEdit<%= user.id %>">
+                                data-target="#staticBackdropEdit<%= user.id%>">
                                 Edit user
                             </button>
 
                             <!-- Modal edit user can co them phan input value -->
-                            <div class="modal fade" id="staticBackdropEdit<%= user.id %>" tabindex="-1" role="dialog"
+                            <div class="modal fade" id="staticBackdropEdit<%= user.id%>" tabindex="-1" role="dialog"
                                 aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
 
                                     <form class="modal-content" role="form" method="POST"
-                                        action="/edit/<%= user.id %>?_method=PUT">
+                                        action="/edit/<%= user.id%>">
                                         <div class="modal-header">
                                             <h5 class="modal-title" id="exampleModalLabel">Edit user</h5>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">

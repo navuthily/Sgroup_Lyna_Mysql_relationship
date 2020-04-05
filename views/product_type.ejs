@@ -108,6 +108,8 @@
           <tr>
             <td><%= product_type.id%></td>
             <td><%= product_type.product_type_name%></td>
+            <td>chua them dc</td>
+       
             <td> <a href="/product_type/<%=product_type.id%>" method="GET"> view product_type </a></td>
 
             <td>
@@ -122,7 +124,7 @@
                 aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
 
-                  <form class="modal-content" role="form" method="POST" action="/edit/<%= product_type.id %>?_method=PUT">
+                  <form class="modal-content" role="form" method="POST" action="/edit/<%= product_type.id %>"><!-- ?_method=PUT -->
                     <div class="modal-header">
                       <h5 class="modal-title" id="exampleModalLabel">Edit product_type</h5>
                       <button type="button" class="close" data-dismiss="modal" aria-label="Close">

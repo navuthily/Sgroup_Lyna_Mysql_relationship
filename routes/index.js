@@ -26,7 +26,6 @@ router.get('/user/:id', authmiddleware.userAuth, authControllers.getUserId);
 router.put('/edit/:id', authControllers.userEdit);
 
 // delete user
-// ta dang sua cai nay ne
 router.delete('/del/:id', authmiddleware.userAuth, authControllers.getDelId);
 
 // add user

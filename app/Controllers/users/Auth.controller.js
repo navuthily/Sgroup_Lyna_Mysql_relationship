@@ -76,7 +76,7 @@ const getUserId = async (req, res) => {
 // edit user dang sua ne
 const userEdit = async (req, res) => {
   await knex('users').where({
-    id: req.params.user_id,
+    id: req.params.id,
   }).update({
     fullname: req.body.fullname,
     username: req.body.username,
