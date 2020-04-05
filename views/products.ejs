@@ -68,10 +68,8 @@
 
         </ul>
         <ul class="nav navbar-nav navbar-right">
-          <li><a href="/product" class="btn btn-primary"><span class="glyphicon glyphicon-product"></span> My account</a></li>
-          <li><a href="/log
-            
-            in" class="btn btn-primary"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+          <li><a href="/user" class="btn btn-primary"><span class="glyphicon glyphicon-product"></span> My account</a></li>
+          <li><a href="/login" class="btn btn-primary"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
         </ul>
       </div>
     </nav>
@@ -82,7 +80,7 @@
 
     <div class="panel panel-primary">
       <div class="panel-heading">
-        <h3 class="panel-title">product_type</h3>
+        <h3 class="panel-title">products</h3>
         <div class="pull-right">
           <span class="clickable filter" data-toggle="tooltip" title="" data-container="body"
             data-original-title="Toggle table filter">
@@ -173,7 +171,7 @@
                 aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
 
-                  <form class="modal-content" role="form" method="POST" action="/del/<%= product.id %>"
+                  <form class="modal-content" role="form" method="POST" action="/del/product/<%= product.id %>"
                     enctype="application/x-www-form-urlencoded">
                     <div class="modal-header">
                       <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>

@@ -84,7 +84,15 @@ const userEdit = async (req, res) => {
   });
   return res.redirect('/users');
 };
-
+// delete user
+const deleteUserId = async function (req, res) {
+  await knex('users')
+    .where({
+      id: req.params.id,
+    }, true)
+    .del();
+  return res.redirect('/users');
+};
 const getDelId = async function (req, res) {
   await knex('users')
     .where({
@@ -119,6 +127,7 @@ module.exports = {
   postLogout,
   getUser,
   getUserId,
+  deleteUserId,
   getDelId,
   userEdit,
   postAdd,

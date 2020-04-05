@@ -8,7 +8,6 @@ exports.up = (knex) => {
                             .inTable('users');
   });
 };
-
 exports.down = (knex) => {
   return knex.schema.dropTable('Product_type');
 };
