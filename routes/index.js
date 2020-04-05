@@ -108,7 +108,7 @@ router.put('/edit/product/:id', async (req, res) => {
 // delete user
 // ta dang sua cai nay ne
 router.delete('/del/product/:id', authmiddleware.userAuth,  async function (req, res) {
-  await knex('users')
+  await knex('products')
     .where({
       id: req.params.id,
     })
