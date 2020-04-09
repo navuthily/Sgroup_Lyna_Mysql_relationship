@@ -11,12 +11,12 @@ const knex = require('../database/connection');
 // view list users
 router.get('/users', authmiddleware.userAuth, authControllers.getUsers);
 // login
-router.get('/login', authControllers.getLogin);
-router.post('/login', authControllers.postLogin);
+router.get('/login',authmiddleware.userIsNotAuth, authControllers.getLogin);
+router.post('/login',authmiddleware.userIsNotAuth, authControllers.postLogin);
 
 // register
-router.get('/register', authControllers.getRegister);
-router.post('/register', authControllers.postRegister);
+router.get('/register',authmiddleware.userIsNotAuth, authControllers.getRegister);
+router.post('/register',authmiddleware.userIsNotAuth, authControllers.postRegister);
 // logout
 router.post('/logout', authmiddleware.userAuth, authControllers.postLogout);
 // view account user
@@ -108,8 +108,6 @@ router.put('/edit/product/:id', async (req, res) => {
   return res.redirect('/products');
 });
 
-// delete user
-// ta dang sua cai nay ne
 router.delete('/del/product/:id', authmiddleware.userAuth,  async function (req, res) {
   await knex('products')
     .where({
@@ -120,7 +118,7 @@ router.delete('/del/product/:id', authmiddleware.userAuth,  async function (req,
 });
 
 
-// moi ne
+
 router.get('/product_type/:id', authmiddleware.userAuth, async (req, res) => {
   const product_type = await knex('product_type')
     .where({
@@ -144,7 +142,7 @@ router.put('/edit/product_type/:id', async (req, res) => {
 });
 
 // delete user
-// ta dang sua cai nay ne
+
 router.delete('/del/product_type/:id', authmiddleware.userAuth,  async function (req, res) {
   await knex('product_type')
     .where({
@@ -153,9 +151,7 @@ router.delete('/del/product_type/:id', authmiddleware.userAuth,  async function 
     .del();
   return res.redirect('/product_type');
 });
-// bat dau cai moi ne
 
-//tiếp nữa nè
 
 module.exports = router;
 

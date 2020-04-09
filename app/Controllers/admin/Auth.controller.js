@@ -126,7 +126,7 @@ const puteituser = async function (req, res) {
 };
 // add user
 const getAdd = function (req, res) {
-  return res.render('users/register', {
+  return res.render('users/add', {
     title: 'Add',
   });
 };
