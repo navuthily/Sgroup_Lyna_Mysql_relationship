@@ -1,17 +1,16 @@
+const saltRounds = 10;
+const { validationResult} = require('express-validator');
 const bcrypt = require('bcrypt');
 const knex = require('../../../database/connection');
-
 const getUsers = async (req, res) => {
   const users = await knex('users');
-
   res.render('users/users', {
     title: 'Users',
     users,
   });
 };
-
 const getLogin = async (req, res) => res.render('users/login', {
-  title: 'Login',
+  title: 'Login', 
 });
 const postLogin = async (req, res) => {
   const {
@@ -34,19 +33,33 @@ const postLogin = async (req, res) => {
   }
   res.send('Tài khoản không tồn tại');
 };
+// register
 const getRegister = (req, res) => res.render('users/register', {
-  title: 'Register',
+  title: 'Register', layout: false, errors: req.flash('errors') 
 });
+// register
 const postRegister = async (req, res) => {
-  const salt = bcrypt.genSaltSync(10);
-  const hashedPassword = await bcrypt.hash(req.body.password, salt);
-  await knex('users').insert({
-    fullname: req.body.fullname,
-    username: req.body.username,
-    email: req.body.email,
-    password: hashedPassword,
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    req.flash('errors', errors.array());
+    var values;
+    return res.redirect('/register',{values:req.body});
+  }
+
+  bcrypt.hash(req.body.password, saltRounds, async (err, hashPassword) => {
+    await knex('users').insert({
+      email: req.body.email,
+      fullname: req.body.fullname,
+      username: req.body.username,
+      password: hashPassword,
+    }).asCallback((error) => {
+      if (error !== null && error.code === 'ER_DUP_ENTRY') {
+        req.flash('errors', { param: 'email', msg: 'This email is already taken' });
+        return res.redirect('/register');
+      }
+      return res.redirect('/login');
+    });
   });
-  return res.redirect('/login');
 };
 const postLogout = (req, res) => {
   req.session.destroy((err) => {
@@ -67,12 +80,10 @@ const getUserId = async (req, res) => {
     })
     .select('*')
     .first();
-
   return res.render('userprofile', {
     user,
   });
 };
-
 // edit user dang sua ne
 const userEdit = async (req, res) => {
   await knex('users').where({

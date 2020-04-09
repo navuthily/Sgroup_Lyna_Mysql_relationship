@@ -5,7 +5,7 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
-
+var flash = require('connect-flash');
 // const expressLayouts = require('express-ejs-layouts');
 
 const {
@@ -41,7 +41,8 @@ app.use(methodOverride(function (req, res) {
 // Setting up sessions
 app.set('trust proxy', 1); // trust first proxy
 app.use(sessionModules);
-
+//flash
+app.use(flash());
 // Setting up routers
 app.use('/admin', adminRouter);
 app.use('/', usersRouter);
@@ -60,5 +61,15 @@ app.use((err, req, res) => {
   // render the error page
   res.status(err.status || 500);
   res.render('error');
+});
+app.get('/flash', function(req, res){
+  // Set a flash message by passing the key, followed by the value, to req.flash().
+  req.flash('info', 'Flash is back!')
+  res.redirect('/');
+});
+ 
+app.get('/', function(req, res){
+  // Get an array of flash messages by passing the key to req.flash()
+  res.render('index', { messages: req.flash('info') });
 });
 module.exports = app;

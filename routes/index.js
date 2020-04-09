@@ -2,43 +2,56 @@ const express = require('express');
 
 const router = express.Router();
 
-const authmiddleware = require('../app/middleware/users/auth.middleware');
+const { userAuth ,userIsNotAuth} = require('../app/middleware/users/auth.middleware');
 
-const authControllers = require('../app/Controllers/users/Auth.controller');
+const { getUsers,
+  getLogin,
+  postLogin,
+  getRegister,
+  postRegister,
+  postLogout,
+  getUser,
+  getUserId,
+  deleteUserId,
+  getDelId,
+  userEdit,
+  postAdd,
+  getAdd,} = require('../app/Controllers/users/Auth.controller');
+const {loginValidation,registerValidation}=require('../app/middleware/users/Validator.middleware');
 
 const knex = require('../database/connection');
 
 // view list users
-router.get('/users', authmiddleware.userAuth, authControllers.getUsers);
+router.get('/users', userAuth, getUsers);
 // login
-router.get('/login',authmiddleware.userIsNotAuth, authControllers.getLogin);
-router.post('/login',authmiddleware.userIsNotAuth, authControllers.postLogin);
+router.get('/login',userIsNotAuth, getLogin);
+router.post('/login',[userIsNotAuth, loginValidation], postLogin);
 
 // register
-router.get('/register',authmiddleware.userIsNotAuth, authControllers.getRegister);
-router.post('/register',authmiddleware.userIsNotAuth, authControllers.postRegister);
+router.get('/register',userIsNotAuth, getRegister);
+router.post('/register',[userIsNotAuth, registerValidation], postRegister);
 // logout
-router.post('/logout', authmiddleware.userAuth, authControllers.postLogout);
+router.post('/logout', userAuth, postLogout);
 // view account user
-router.get('/user', authmiddleware.userAuth, authControllers.getUser);
-router.get('/user/:id', authmiddleware.userAuth, authControllers.getUserId);
+router.get('/user', userAuth, getUser);
+router.get('/user/:id', userAuth, getUserId);
 // edit user
-router.put('/edit/:id', authControllers.userEdit);
+router.put('/edit/:id', userEdit);
 
 // delete user
-router.delete('/del/:id', authmiddleware.userAuth, authControllers.getDelId);
+router.delete('/del/:id', userAuth, getDelId);
 
 // add user
-router.get('/add', authmiddleware.userAuth, authControllers.getAdd);
-router.post('/add', authmiddleware.userAuth, authControllers.postAdd);
+router.get('/add', userAuth, getAdd);
+router.post('/add', userAuth, postAdd);
 
 //create a  product_type
-router.get('/product_type/add', authmiddleware.userAuth, async function (req, res) {
+router.get('/product_type/add', userAuth, async function (req, res) {
   res.render('users/create_typesp', {
     title: 'product_type'
   });
 })
-router.post('/product_type/add', authmiddleware.userAuth, async function (req, res) {
+router.post('/product_type/add', userAuth, async function (req, res) {
 
   await knex('Product_type').insert({
     product_type_name: req.body.product_type_name,
@@ -47,7 +60,7 @@ router.post('/product_type/add', authmiddleware.userAuth, async function (req, r
   return res.redirect('/product_type');
 
 })
-router.get('/product_type', authmiddleware.userAuth, async function (req, res) {
+router.get('/product_type', userAuth, async function (req, res) {
  
  // const products_type =  await knex('Product_type').leftJoin('users', 'Product_type.user_id ', 'users.id');
  const products_type = await knex('product_type');
@@ -59,12 +72,12 @@ router.get('/product_type', authmiddleware.userAuth, async function (req, res) {
 // read or show product_type dungf :id
 
 //create products
-router.get('/products/add', authmiddleware.userAuth, async function (req, res) {
+router.get('/products/add', userAuth, async function (req, res) {
   res.render('users/create_sp', {
     title: 'product'
   });
 })
-router.post('/products/add', authmiddleware.userAuth, async function (req, res) {
+router.post('/products/add', userAuth, async function (req, res) {
   await knex('Products').insert({
     product_name: req.body.product_name,
     describe:req.body.describe,
@@ -75,7 +88,7 @@ router.post('/products/add', authmiddleware.userAuth, async function (req, res) 
   return res.redirect('/products');
 
 })
-router.get('/products', authmiddleware.userAuth, async function (req, res) {
+router.get('/products', userAuth, async function (req, res) {
  // const products =  await knex('products').leftJoin('Product_type', 'Products.product_type_id ', 'Product_type.id');
   const products = await knex('products');
   res.render('products', {
@@ -84,7 +97,7 @@ router.get('/products', authmiddleware.userAuth, async function (req, res) {
   });
 })
 // sua tu day moi ne
-router.get('/product/:id', authmiddleware.userAuth, async (req, res) => {
+router.get('/product/:id', userAuth, async (req, res) => {
   const product = await knex('products')
     .where({
       id: req.params.id,
@@ -108,7 +121,7 @@ router.put('/edit/product/:id', async (req, res) => {
   return res.redirect('/products');
 });
 
-router.delete('/del/product/:id', authmiddleware.userAuth,  async function (req, res) {
+router.delete('/del/product/:id', userAuth,  async function (req, res) {
   await knex('products')
     .where({
       id: req.params.id,
@@ -119,7 +132,7 @@ router.delete('/del/product/:id', authmiddleware.userAuth,  async function (req,
 
 
 
-router.get('/product_type/:id', authmiddleware.userAuth, async (req, res) => {
+router.get('/product_type/:id', userAuth, async (req, res) => {
   const product_type = await knex('product_type')
     .where({
       id: req.params.id,
@@ -143,7 +156,7 @@ router.put('/edit/product_type/:id', async (req, res) => {
 
 // delete user
 
-router.delete('/del/product_type/:id', authmiddleware.userAuth,  async function (req, res) {
+router.delete('/del/product_type/:id', userAuth,  async function (req, res) {
   await knex('product_type')
     .where({
       id: req.params.id,

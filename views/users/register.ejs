@@ -181,27 +181,33 @@
                                         <hr class="hr-light">
                                     </div>
                                     <!--Body-->
-                                    <div class="md-form">
+                                    <div class="md-form ">
                                         <i class="fas fa-user prefix white-text"></i>
-                                        <input type="text" id="fullname" name='fullname'class="white-text form-control">
-                                        <label for="form1" class=""> full name</label>
+                                        <input type="text"  name='fullname'class="white-text form-control form1" >
+                                        <label for="form1" class="error-field" data-location="fullname"> full name</label>
                                     </div>
                                     <div class="md-form">
                                         <i class="fas fa-user prefix white-text"></i>
-                                        <input type="text"name='username' id="username" class="white-text form-control">
-                                        <label for="form2" class=""> name</label>
+                                        <input type="text"name='username' class="white-text form-control form2">
+                                        <label for="form2" class="error-field" data-location="username"> name</label>
                                     </div>
                                     <div class="md-form">
                                         <i class="fas fa-envelope prefix white-text"></i>
-                                        <input type="email" id="email" name='email'class="white-text form-control">
-                                        <label for="form3" class="">email</label>
+                                        <input type="email"  name='email'class="white-text form-control form3">
+                                        <label for="form3" class="error-field" data-location="email">email</label>
                                     </div>
                                     <div class="md-form">
                                         <i class="fas fa-lock prefix white-text"></i>
-                                        <input type="password"name='password' id="pasword" class="white-text form-control">
-                                        <label for="form4" class="">password</label>
+                                        <input type="password"name='password' class="white-text form-control form4">
+                                        <label for="form4" class="error-field" data-location="password">password</label>
                                     </div>
-                                    
+                                    <div class="md-form">
+                                        <i class="fas fa-lock prefix white-text"></i>
+                                        <input type="password" name="passwordConfirmation"  class="white-text form-control form5"
+                                   >
+                                        <label for="form5" class="error-field"data-location="passwordConfirmation" >confirm password</label>
+                                    </div>
+  
                                     <div class="text-center mt-4">
                                         <button class="btn btn-indigo waves-effect waves-light">Sign up</button>
                                         <hr class="hr-light mb-3 mt-4">
@@ -265,8 +271,22 @@
     <script>
         new WOW().init();
     </script>
-
-
+    <script>
+      const errors = <%- JSON.stringify(errors)%>;
+      console.log(errors);
+      $(document).ready(function() {
+        if (errors.length > 0) {
+          const elements = document.querySelectorAll('.error-field');
+          for(let i=0; i < elements.length; i++) {
+            for(let j=0; j < errors.length; j++) {
+              if(elements[i].dataset.location === errors[j].param) {
+                elements[i].innerHTML = errors[j].msg;
+              }
+            }
+          }
+        }
+      });
+    </script>
     <div id="eJOY__extension_root" style="all: unset;"></div>
 </body>
 
