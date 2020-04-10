@@ -68,7 +68,8 @@
 
         </ul>
         <ul class="nav navbar-nav navbar-right">
-          <li><a href="/user" class="btn btn-primary"><span class="glyphicon glyphicon-product"></span> My account</a></li>
+          <li><a href="/user" class="btn btn-primary"><span class="glyphicon glyphicon-product"></span> My account</a>
+          </li>
           <li><a href="/login" class="btn btn-primary"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
         </ul>
       </div>
@@ -112,8 +113,8 @@
             <td><%= product.product_name %></td>
             <td><%= product.describe %></td>
             <td><%= product.price %></td>
-            <td>chua them dc</td>
-            <td>chua them dc</td>
+            <td><%= product.product_type_name %></td>
+            <td><%= product.username %></td>
             <td> <a href="/product/<%=product.id%>" method="GET"> view product </a></td>
 
             <td>
@@ -128,7 +129,8 @@
                 aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
 
-                  <form class="modal-content" role="form" method="POST" action="/edit/<%= product.id %>"><!-- ?_method=PUT-->
+                  <form class="modal-content" role="form" method="POST" action="/edit/<%= product.id %>">
+                    <!-- ?_method=PUT-->
                     <div class="modal-header">
                       <h5 class="modal-title" id="exampleModalLabel">Edit product</h5>
                       <button type="button" class="close" data-dismiss="modal" aria-label="Close">

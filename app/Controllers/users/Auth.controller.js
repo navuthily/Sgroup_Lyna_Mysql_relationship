@@ -3,35 +3,41 @@ const { validationResult} = require('express-validator');
 const bcrypt = require('bcrypt');
 const knex = require('../../../database/connection');
 const getUsers = async (req, res) => {
-  const users = await knex('users');
+  const users = await knex('users').select('*');
   res.render('users/users', {
     title: 'Users',
     users,
   });
 };
 const getLogin = async (req, res) => res.render('users/login', {
-  title: 'Login', 
+  title: 'Login',  layout: false, errors: req.flash('errors') 
 });
-const postLogin = async (req, res) => {
-  const {
-    email,
-  } = req.body;
-  const user = await knex('users')
-    .where({
-      email,
-    })
-    .select('*')
-    .first();
-  if (user) {
-    if (!user.password) {
-      res.redirect('/login');
-    }
-    req.session.user = user;
-    req.body.user = user;
 
-    res.redirect('/user');
+
+const postLogin = async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    req.flash('errors', errors.array());
+    return res.redirect('/login');
   }
-  res.send('Tài khoản không tồn tại');
+  const user = await knex('users').where({
+    email: req.body.email,
+  }).first();
+
+  if (typeof user !== 'undefined') {
+
+    bcrypt.compare(req.body.password, user.password, (err, result) => {
+      if (result) {
+        req.session.user = user;
+        return res.redirect('/user');
+      }
+      req.flash('errors', { param: 'password', msg: 'Wrong email or password' });
+      return res.redirect('/login');
+    });
+  } else {
+    req.flash('errors', { param: 'password', msg: 'Wrong email or password' });
+    return res.redirect('/login');
+  }
 };
 // register
 const getRegister = (req, res) => res.render('users/register', {

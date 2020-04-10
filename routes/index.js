@@ -54,16 +54,19 @@ router.get('/product_type/add', userAuth, async function (req, res) {
 router.post('/product_type/add', userAuth, async function (req, res) {
 
   await knex('Product_type').insert({
+    user_id: req.session.user.id,
     product_type_name: req.body.product_type_name,
-    user_id: req.session.id
+ 
   });
   return res.redirect('/product_type');
 
 })
 router.get('/product_type', userAuth, async function (req, res) {
  
- // const products_type =  await knex('Product_type').leftJoin('users', 'Product_type.user_id ', 'users.id');
- const products_type = await knex('product_type');
+ const products_type =  await knex('Product_type').leftJoin('users', 'Product_type.user_id ', 'users.id')
+ .select('product_type.id as id',
+ 'product_type_name',
+ 'username',);
   res.render('product_type', {
     title: 'product_type',
     products_type
@@ -79,18 +82,29 @@ router.get('/products/add', userAuth, async function (req, res) {
 })
 router.post('/products/add', userAuth, async function (req, res) {
   await knex('Products').insert({
+    
     product_name: req.body.product_name,
     describe:req.body.describe,
     price: req.body.price,
-    product_type_id: 1//i don't know this
+    product_type_id:1,
+    user_id: req.session.user.id,
   });
 
   return res.redirect('/products');
 
 })
 router.get('/products', userAuth, async function (req, res) {
- // const products =  await knex('products').leftJoin('Product_type', 'Products.product_type_id ', 'Product_type.id');
-  const products = await knex('products');
+ const products =  await knex('products')
+ .leftJoin('users', 'products.user_id', 'users.id')
+ .leftJoin('Product_type', 'Products.product_type_id ', 'Product_type.id')
+ .select('products.id as id',
+ 'product_name',
+ 'price',
+ 'describe',
+ 'product_type_name',
+ 'username'
+ );
+  // const products = await knex('products');
   res.render('products', {
     title: 'products',
     products

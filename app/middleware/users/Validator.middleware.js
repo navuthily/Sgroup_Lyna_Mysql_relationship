@@ -20,8 +20,10 @@ const registerValidation = [
   }),
 ];
 const loginValidation = [
+  // Check email field
   body('email').isEmail().withMessage('Invalid email input'),
-  body('password').isLength({ min: 5 }).withMessage('Invalid password'),
+  // Check password fields
+  body('password').isLength({ min: 3 }).withMessage('The password should be at least 3 characters'),
 ];
 module.exports = {
   registerValidation,
