@@ -1,0 +1,184 @@
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex, nofollow">
+
+  <title>Products_Type</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet"
+    id="bootstrap-css">
+  <style type="text/css">
+  body{
+    background-color: #F8F9F9 ;
+  }
+    .row {
+      margin-top: 40px;
+      padding: 0 10px;
+    }
+    .panel-title{
+      color: #2874A6 ;
+      font-size: 30px;
+      text-decoration: underline;
+    }
+
+    .clickable {
+      cursor: pointer;
+    }
+
+    .panel-heading div {
+      margin-top: -18px;
+      font-size: 15px;
+    }
+
+    .panel-heading div span {
+      margin-left: 5px;
+    }
+
+    .panel-body {
+      display: none;
+    }
+    .nana>div{
+      display: inline-block;
+      border-radius:10px ;
+      margin: 20px;
+      background-color: #EAF2F8 ;
+    }
+    img{
+      border-radius: 10px;
+    }
+  </style>
+  <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+  <script src="https://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+  <script type="text/javascript">
+    window.alert = function () {};
+    var defaultCSS = document.getElementById('bootstrap-css');
+
+    function changeCSS(css) {
+      if (css) $('head > link').filter(':first').replaceWith('<link rel="stylesheet" href="' + css +
+        '" type="text/css" />');
+      else $('head > link').filter(':first').replaceWith(defaultCSS);
+    }
+    $(document).ready(function () {
+      var iframe_height = parseInt($('html').height());
+      window.parent.postMessage(iframe_height, 'https://bootsnipp.com');
+    });
+  </script>
+</head>
+
+<body>
+  <h1>
+    <!-- <div class="text-center">
+      <div class="container nav ">
+        <form action="/products" method="get"><button class="btn btn-primary">Home </button></form>
+        <form action="/product" method="get"><button class="btn btn-primary">My account </button></form>
+        <form class="pl-6 float-right" action="/logout" method="POST"> <button class="btn btn-primary float-right"> Log
+                out
+            </button>
+        </form>
+    </div> -->
+    <nav class="  navbar">
+      <div class="container-fluid ">
+
+        <ul class="nav navbar-nav">
+          <li class="active"><a href="/products" class="btn btn-primary">Home</a></li>
+
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="/user" class="btn btn-primary"><span class="glyphicon glyphicon-product"></span> My account</a>
+          </li>
+          <li><a href="/login" class="btn btn-primary"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+        </ul>
+      </div>
+    </nav>
+    <hr class="hr-light">
+    </div>
+  </h1>
+  <div class="container nana">
+    <h3 class="panel-title"> List products</h3>
+
+
+    <% products.forEach(function(product) { %>
+    <!-- view products -->
+    <div class="card" style="width: 18rem;">
+      <img class="card-img-top" alt="Card image cap" src="/products/<%= product.path_img %>" height="100px" ,
+        width="180px">
+      <div class="card-body">
+        <h5 class="card-title"><%= product.product_name %></h5>
+        <p class="card-text">Card id : <%= product.id %></p>
+        <p class="card-text">Describe: <%= product.describe %></p>
+        <p class="card-text">Price : <%= product.price %></p>
+        <a href="/product/<%= product.id%>" method="GET" class="btn btn-primary">View more</a>
+      </div>
+    </div>
+    <% }); %>
+
+
+  </div>
+  <script type="text/javascript">
+    /**
+     *   I don't recommend using this plugin on large tables, I just wrote it to make the demo useable. It will work fine for smaller tables 
+     *   but will likely encounter performance issues on larger tables.
+     *
+     *		<input type="text" class="form-control" id="dev-table-filter" data-action="filter" data-filters="#dev-table" placeholder="Filter Developers" />
+     *		$(input-element).filterTable()
+     *		
+     *	The important attributes are 'data-action="filter"' and 'data-filters="#table-selector"'
+     */
+    (function () {
+      'use strict';
+      var $ = jQuery;
+      $.fn.extend({
+        filterTable: function () {
+          return this.each(function () {
+            $(this).on('keyup', function (e) {
+              $('.filterTable_no_results').remove();
+              var $this = $(this),
+                search = $this.val().toLowerCase(),
+                target = $this.attr('data-filters'),
+                $target = $(target),
+                $rows = $target.find('tbody tr');
+
+              if (search == '') {
+                $rows.show();
+              } else {
+                $rows.each(function () {
+                  var $this = $(this);
+                  $this.text().toLowerCase().indexOf(search) === -1 ? $this.hide() : $this.show();
+                })
+                if ($target.find('tbody tr:visible').size() === 0) {
+                  var col_count = $target.find('tr').first().find('td').size();
+                  var no_results = $('<tr class="filterTable_no_results"><td colspan="' + col_count +
+                    '">No results found</td></tr>')
+                  $target.find('tbody').append(no_results);
+                }
+              }
+            });
+          });
+        }
+      });
+      $('[data-action="filter"]').filterTable();
+    })(jQuery);
+
+    $(function () {
+      // attach table filter plugin to inputs
+      $('[data-action="filter"]').filterTable();
+
+      $('.container').on('click', '.panel-heading span.filter', function (e) {
+        var $this = $(this),
+          $panel = $this.parents('.panel');
+
+        $panel.find('.panel-body').slideToggle();
+        if ($this.css('display') != 'none') {
+          $panel.find('.panel-body input').focus();
+        }
+      });
+      $('[data-toggle="tooltip"]').tooltip();
+    })
+  </script>
+
+
+  <div id="eJOY__extension_root" style="all: unset;"></div>
+</body>
+
+</html>

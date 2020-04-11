@@ -107,7 +107,7 @@ router.get('/products', userAuth, async function (req, res) {
  'username','path_img'
  );
   // const products = await knex('products');
-  res.render('products', {
+  res.render('users/viewsp', {
     title: 'products',
     products
   });
