@@ -104,6 +104,7 @@
             <th scope='col'>Price</th>
             <th scope='col'>Product_Type_Name</th>
             <th scope="col">Creater</th>
+            <th scope="col">Image</th>
           </tr>
         </thead>
         <tbody>
@@ -115,7 +116,10 @@
             <td><%= product.price %></td>
             <td><%= product.product_type_name %></td>
             <td><%= product.username %></td>
-            <td> <a href="/product/<%=product.id%>" method="GET"> view product </a></td>
+            <td>
+              <img src="/products/<%= product.path_img %>" width="50px" height="50px">
+            </td>
+            <td> <a href="/product/<%= product.id%>" method="GET"> view product </a></td>
 
             <td>
               <!-- Button trigger modal -->

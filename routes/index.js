@@ -20,7 +20,7 @@ const { getUsers,
 const {loginValidation,registerValidation}=require('../app/middleware/users/Validator.middleware');
 
 const knex = require('../database/connection');
-
+const {uploadMulter}=require('../app/models/multer')
 // view list users
 router.get('/users', userAuth, getUsers);
 // login
@@ -80,7 +80,8 @@ router.get('/products/add', userAuth, async function (req, res) {
     title: 'product'
   });
 })
-router.post('/products/add', userAuth, async function (req, res) {
+router.post('/products/add', userAuth,uploadMulter.single('path_img'), async function (req, res) {
+  const {originalname}=req.file;
   await knex('Products').insert({
     
     product_name: req.body.product_name,
@@ -88,6 +89,7 @@ router.post('/products/add', userAuth, async function (req, res) {
     price: req.body.price,
     product_type_id:1,
     user_id: req.session.user.id,
+    path_img:originalname
   });
 
   return res.redirect('/products');
@@ -102,7 +104,7 @@ router.get('/products', userAuth, async function (req, res) {
  'price',
  'describe',
  'product_type_name',
- 'username'
+ 'username','path_img'
  );
   // const products = await knex('products');
   res.render('products', {

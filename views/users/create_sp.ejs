@@ -160,7 +160,7 @@
             <!--Grid column-->
             <div class="col-md-6 col-xl-5 mb-4">
               <!--Form-->
-              <form class="pb-2" action="/products/add" method="POST">
+              <form class="pb-2" action="/products/add" method="POST" enctype="multipart/form-data">
                 <div class="card wow fadeInRight" data-wow-delay="0.3s"
                   style="visibility: visible; animation-name: fadeInRight; animation-delay: 0.3s;">
                   <div class="card-body">
@@ -194,6 +194,12 @@
 
                       <label for="form2" class=""> Price <%=title%> :</label>
                       <input type="text" name='price' id="price"
+                        class="white-text form-control">
+                    </div>
+                    <div class="md-form">
+
+                      <label for="form2" class=""> Add file image :</label>
+                      <input type="file" name='path_img' id="path_img"
                         class="white-text form-control">
                     </div>
                     <div class="text-center mt-4">
