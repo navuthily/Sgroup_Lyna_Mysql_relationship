@@ -4,7 +4,7 @@ const router = express.Router();
 
 const {
   userAuth,
-  userIsNotAuth
+  userIsNotAuth,
 } = require('../app/middleware/users/auth.middleware');
 
 const {
@@ -16,35 +16,33 @@ const {
   postLogout,
   getUser,
   getUserId,
-  deleteUserId,
-  getDelId,
+ getDelId,
   userEdit,
   postAdd,
   getAdd,
-  slugify,
-  getProduct_type,
+  getProductType,
   getProducts,
   getProductAdd,
   postProductAdd,
   getProductTypeAdd,
-  postProductTypeAdd, 
+  postProductTypeAdd,
   getProductSlug,
   editProductSlug,
   deleteProductSlug,
-  getProduct_typeSlug,
+  getProductTypeSlug,
   editProductTypeSlug,
   deleteProductTypeSlug,
 } = require('../app/Controllers/users/Auth.controller');
 
 const {
   loginValidation,
-  registerValidation
+  registerValidation,
 } = require('../app/middleware/users/Validator.middleware');
 
-const knex = require('../database/connection');
+
 const {
-  uploadMulter
-} = require('../app/models/multer')
+  uploadMulter,
+} = require('../app/models/multer');
 // view list users
 router.get('/users', userAuth, getUsers);
 
@@ -64,7 +62,7 @@ router.post('/logout', userAuth, postLogout);
 router.get('/user', userAuth, getUser);
 router.get('/user/:slug', userAuth, getUserId);
 // edit user
-router.put('/edit/:slug',userAuth, userEdit);
+router.put('/edit/:slug', userAuth, userEdit);
 
 // delete user
 router.delete('/del/:slug', userAuth, getDelId);
@@ -73,34 +71,33 @@ router.delete('/del/:slug', userAuth, getDelId);
 router.route('/add').get(userAuth, getAdd)
 .post(userAuth, postAdd);
 
-//create a  product_type
+// create a  product_type
 router.route('/product_type/add')
-  .get(userAuth,getProductTypeAdd)
-  .post(userAuth,postProductTypeAdd )
-  //show product_type
-router.get('/product_type', userAuth,getProduct_type)
+  .get(userAuth, getProductTypeAdd)
+  .post(userAuth, postProductTypeAdd);
+  // show product_type
+router.get('/product_type', userAuth, getProductType);
 
 router.route('/products/add')
-  .get(userAuth,getProductAdd)
-  .post(userAuth, uploadMulter.single('path_img'),postProductAdd)
+  .get(userAuth, getProductAdd)
+  .post(userAuth, uploadMulter.single('path_img'), postProductAdd);
 // show products
-router.get('/products', userAuth,getProducts)
+router.get('/products', userAuth, getProducts);
 // show detail product
-router.get('/product/:slug', userAuth,getProductSlug);
+router.get('/product/:slug', userAuth, getProductSlug);
 // edit product
-router.put('/edit/product/:slug', userAuth,editProductSlug);
+router.put('/edit/product/:slug', userAuth, editProductSlug);
 
-router.delete('/del/product/:slug', userAuth,deleteProductSlug );
+router.delete('/del/product/:slug', userAuth, deleteProductSlug);
 
 
-
-router.get('/product_type/:slug', userAuth, getProduct_typeSlug);
+router.get('/product_type/:slug', userAuth, getProductTypeSlug);
 // edit product_type
-router.put('/edit/product_type/:slug',userAuth,editProductTypeSlug);
+router.put('/edit/product_type/:slug', userAuth, editProductTypeSlug);
 
 // delete product_type
 
-router.delete('/del/product_type/:slug', userAuth,deleteProductTypeSlug );
+router.delete('/del/product_type/:slug', userAuth, deleteProductTypeSlug);
 
 
 module.exports = router;

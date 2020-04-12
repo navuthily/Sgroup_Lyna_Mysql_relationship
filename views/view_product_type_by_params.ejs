@@ -245,18 +245,18 @@
         </thead>
         <tbody>
 
-          <%if (product_type) { %>
+          <%if (productType) { %>
 
           <tr>
-            <td><%= product_type.id%></td>
-            <td><%= product_type.product_type_name %></td>
+            <td><%= productType.id%></td>
+            <td><%= productType.product_type_name %></td>
       
             <td> <a href="" method="GET"> view product_type </a></td>
 
-            <td><a href="" class=" button edit-button" data-toggle="modal" data-product_type="<%= product_type.slug %>"
+            <td><a href="" class=" button edit-button" data-toggle="modal" data-product_type="<%= productType.slug %>"
                 data-target="#edit-product_type">Edit</a>
             </td>
-            <td><a href="" class="button edit-button" data-toggle="modal" data-product_type="<%= product_type.slug %>"
+            <td><a href="" class="button edit-button" data-toggle="modal" data-product_type="<%= productType.slug %>"
                 data-target="#delete-product_type"> Delete</a></td>
           </tr>
           <% } %>

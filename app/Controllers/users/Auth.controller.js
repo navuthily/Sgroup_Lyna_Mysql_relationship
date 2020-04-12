@@ -1,8 +1,9 @@
 const saltRounds = 10;
-const { validationResult} = require('express-validator');
+const { validationResult } = require('express-validator');
 const bcrypt = require('bcrypt');
+const slugify = require('slugify');
 const knex = require('../../../database/connection');
-const slugify = require('slugify')
+
 const getUsers = async (req, res) => {
   const users = await knex('users').select('*');
   res.render('users/users', {
@@ -11,7 +12,7 @@ const getUsers = async (req, res) => {
   });
 };
 const getLogin = async (req, res) => res.render('users/login', {
-  title: 'Login',  layout: false, errors: req.flash('errors') 
+  title: 'Login', layout: false, errors: req.flash('errors'),
 });
 
 
@@ -26,7 +27,6 @@ const postLogin = async (req, res) => {
   }).first();
 
   if (typeof user !== 'undefined') {
-
     bcrypt.compare(req.body.password, user.password, (err, result) => {
       if (result) {
         req.session.user = user;
@@ -42,15 +42,14 @@ const postLogin = async (req, res) => {
 };
 // register
 const getRegister = (req, res) => res.render('users/register', {
-  title: 'Register', layout: false, errors: req.flash('errors') 
+  title: 'Register', layout: false, errors: req.flash('errors'),
 });
 // register
 const postRegister = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     req.flash('errors', errors.array());
-    var values;
-    return res.redirect('/register',{values:req.body});
+    return res.redirect('/register', { values: req.body });
   }
 
   bcrypt.hash(req.body.password, saltRounds, async (err, hashPassword) => {
@@ -59,7 +58,7 @@ const postRegister = async (req, res) => {
       fullname: req.body.fullname,
       username: req.body.username,
       password: hashPassword,
-      slug: slugify(req.body.username +Date.now()),
+      slug: slugify(req.body.username + Date.now()),
     }).asCallback((error) => {
       if (error !== null && error.code === 'ER_DUP_ENTRY') {
         req.flash('errors', { param: 'email', msg: 'This email is already taken' });
@@ -100,12 +99,12 @@ const userEdit = async (req, res) => {
     fullname: req.body.fullname,
     username: req.body.username,
     email: req.body.email,
-    slug:slugify(req.body.username +Date.now()),
+    slug: slugify(req.body.username + Date.now()),
   });
   return res.redirect('/users');
 };
 // delete user
-const deleteUserId = async function (req, res) {
+const deleteUserId = async (req, res) => {
   await knex('users')
     .where({
       slug: req.params.slug,
@@ -113,7 +112,7 @@ const deleteUserId = async function (req, res) {
     .del();
   return res.redirect('/users');
 };
-const getDelId = async function (req, res) {
+const getDelId = async (req, res) => {
   await knex('users')
     .where({
       slug: req.params.slug,
@@ -122,11 +121,9 @@ const getDelId = async function (req, res) {
   return res.redirect('/users');
 };
 // add user
-const getAdd = function (req, res) {
-  return res.render('users/add', {
+const getAdd = (req, res) => res.render('users/add', {
     title: 'Add',
   });
-};
 const postAdd = async (req, res) => {
   const salt = bcrypt.genSaltSync(10);
   const hashedPassword = await bcrypt.hash(req.body.password, salt);
@@ -135,28 +132,26 @@ const postAdd = async (req, res) => {
     username: req.body.username,
     email: req.body.email,
     password: hashedPassword,
-    slug:slugify(req.body.username +Date.now()),
+    slug: slugify(req.body.username + Date.now()),
   });
   return res.redirect('/users');
 };
 
 
-
-//get product_type
-const getProduct_type= async function (req, res) {
-
-  const products_type = await knex('Product_type').leftJoin('users', 'Product_type.user_id ', 'users.id')
+// get product_type
+const getProductType = async (req, res) => {
+  const productsType = await knex('Product_type').leftJoin('users', 'Product_type.user_id ', 'users.id')
     .select('product_type.id as id',
       'product_type_name',
       'username',
       'product_type.slug as slug');
   res.render('product_type', {
     title: 'product_type',
-    products_type
+    productsType,
   });
-}
+};
 
-const getProducts= async function (req, res) {
+const getProducts = async (req, res) => {
   const products = await knex('products')
     .leftJoin('users', 'products.user_id', 'users.id')
     .leftJoin('Product_type', 'Products.product_type_id ', 'Product_type.id')
@@ -165,25 +160,24 @@ const getProducts= async function (req, res) {
       'price',
       'describe',
       'product_type_name',
-      'username', 'path_img', 'products.slug as slug',
-    );
+      'username', 'path_img', 'products.slug as slug');
 
   res.render('users/viewsp', {
     title: 'products',
-    products
+    products,
   });
-}
+};
 // edit user
 
 
-const getProductAdd=  async function (req, res) {
+const getProductAdd = async (req, res) => {
   res.render('users/create_sp', {
-    title: 'product'
+    title: 'product',
   });
-}
-const postProductAdd= async function (req, res) {
+};
+const postProductAdd = async (req, res) => {
   const {
-    originalname
+    originalname,
   } = req.file;
   await knex('Products').insert({
 
@@ -198,15 +192,13 @@ const postProductAdd= async function (req, res) {
   });
 
   return res.redirect('/products');
-
-}
-const getProductTypeAdd=async function (req, res) {
+};
+const getProductTypeAdd = async (req, res) => {
   res.render('users/create_typesp', {
-    title: 'product_type'
+    title: 'product_type',
   });
 };
-const postProductTypeAdd=async function (req, res) {
-
+const postProductTypeAdd = async (req, res) => {
   await knex('Product_type').insert({
     user_id: req.session.user.id,
     product_type_name: req.body.product_type_name,
@@ -214,9 +206,8 @@ const postProductTypeAdd=async function (req, res) {
 
   });
   return res.redirect('/product_type');
-
-}
-const getProductSlug= async (req, res) => {
+};
+const getProductSlug = async (req, res) => {
   const product = await knex('products')
     .where({
       slug: req.params.slug,
@@ -226,29 +217,29 @@ const getProductSlug= async (req, res) => {
   return res.render('view_product_by_params', {
     product,
   });
-}
-const editProductSlug=async (req, res) => {
+};
+const editProductSlug = async (req, res) => {
   await knex('products').where({
     slug: req.params.slug,
   }).update({
     product_name: req.body.product_name,
     describe: req.body.describe,
     price: req.body.price,
-    slug: slugify(req.body.product_name + Date.now())
+    slug: slugify(req.body.product_name + Date.now()),
   });
   return res.redirect('/products');
-}
-const deleteProductSlug=async function (req, res) {
+};
+const deleteProductSlug = async (req, res) => {
   await knex('products')
     .where({
       slug: req.params.slug,
     })
     .del();
   return res.redirect('/products');
-}
+};
 
-const getProduct_typeSlug=async (req, res) => {
-  const product_type = await knex('product_type')
+const getProductTypeSlug = async (req, res) => {
+  const productType = await knex('product_type')
     .where({
       slug: req.params.slug,
     })
@@ -256,26 +247,26 @@ const getProduct_typeSlug=async (req, res) => {
     .first();
 
   return res.render('view_product_type_by_params', {
-    product_type,
+    productType,
   });
-}
-const editProductTypeSlug= async (req, res) => {
+};
+const editProductTypeSlug = async (req, res) => {
   await knex('product_type').where({
-    slug: req.params.slug
+    slug: req.params.slug,
   }).update({
     product_type_name: req.body.product_type_name,
     slug: slugify(req.body.product_type_name + Date.now()),
   });
   return res.redirect('/product_type');
-}
-const deleteProductTypeSlug=async function (req, res) {
+};
+const deleteProductTypeSlug = async (req, res) => {
   await knex('product_type')
     .where({
       slug: req.params.slug,
     })
     .del();
   return res.redirect('/product_type');
-  }
+  };
 module.exports = {
   getUsers,
   getLogin,
@@ -291,7 +282,7 @@ module.exports = {
   postAdd,
   getAdd,
   slugify,
-  getProduct_type,
+  getProductType,
   getProducts,
   getProductAdd,
   postProductAdd,
@@ -300,8 +291,8 @@ module.exports = {
   getProductSlug,
   editProductSlug,
   deleteProductSlug,
-  getProduct_typeSlug,
+  getProductTypeSlug,
   editProductTypeSlug,
-  deleteProductTypeSlug
+  deleteProductTypeSlug,
 
 };

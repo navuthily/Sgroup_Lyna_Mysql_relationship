@@ -1,12 +1,12 @@
 const createError = require('http-errors');
-var bodyParser = require('body-parser')
+
 
 const methodOverride = require('method-override');
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
-var flash = require('connect-flash');
+const flash = require('connect-flash');
 // const expressLayouts = require('express-ejs-layouts');
 
 const {
@@ -14,8 +14,6 @@ const {
 } = require('./config/session');
 
 const app = express();
-
-//const adminRouter = require('./routes/admin');
 
 const usersRouter = require('./routes/index');
 // view engine setup
@@ -29,24 +27,24 @@ app.use(express.urlencoded({
 }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-//app.use('/static', express.static('public'))
-//app.use(methodOverride('_method'));
-app.use(express.urlencoded({ extended: false }))
-app.use(methodOverride(function (req, res) {
+// app.use('/static', express.static('public'))
+// app.use(methodOverride('_method'));
+app.use(express.urlencoded({ extended: false }));
+app.use(methodOverride((req) => {
   if (req.body && typeof req.body === 'object' && '_method' in req.body) {
     // look in urlencoded POST bodies and delete it
-    var method = req.body._method
-    delete req.body._method
-    return method
+    const method = req.body._method;
+    delete req.body._method;
+    return method;
   }
-}))
+}));
 // Setting up sessions
 app.set('trust proxy', 1); // trust first proxy
 app.use(sessionModules);
-//flash
+// flash
 app.use(flash());
 // Setting up routers
-//app.use('/admin', adminRouter);
+// app.use('/admin', adminRouter);
 app.use('/', usersRouter);
 
 // catch 404 and forward to error handler
@@ -64,13 +62,13 @@ app.use((err, req, res) => {
   res.status(err.status || 500);
   res.render('error');
 });
-app.get('/flash', function(req, res){
+app.get('/flash', (req, res) => {
   // Set a flash message by passing the key, followed by the value, to req.flash().
-  req.flash('info', 'Flash is back!')
+  req.flash('info', 'Flash is back!');
   res.redirect('/');
 });
- 
-app.get('/', function(req, res){
+
+app.get('/', (req, res) => {
   // Get an array of flash messages by passing the key to req.flash()
   res.render('index', { messages: req.flash('info') });
 });

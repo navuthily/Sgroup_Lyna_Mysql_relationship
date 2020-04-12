@@ -14,4 +14,4 @@ const userIsNotAuth = (req, res, next) => {
   return res.redirect('/users');
 };
 
-module.exports = { userAuth ,userIsNotAuth};
+module.exports = { userAuth, userIsNotAuth };
