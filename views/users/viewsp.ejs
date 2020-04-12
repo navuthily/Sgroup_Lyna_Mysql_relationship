@@ -47,6 +47,9 @@
     img{
       border-radius: 10px;
     }
+    .card-body{
+      margin: 20px;
+    }
   </style>
   <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
   <script src="https://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
@@ -104,11 +107,13 @@
       <img class="card-img-top" alt="Card image cap" src="/products/<%= product.path_img %>" height="100px" ,
         width="180px">
       <div class="card-body">
-        <h5 class="card-title"><%= product.product_name %></h5>
-        <p class="card-text">Card id : <%= product.id %></p>
-        <p class="card-text">Describe: <%= product.describe %></p>
-        <p class="card-text">Price : <%= product.price %></p>
-        <a href="/product/<%= product.id%>" method="GET" class="btn btn-primary">View more</a>
+        <h5 class="card-title"> Name :<%= product.product_name %></h5>
+        <p class="card-text"> Card id : <%= product.id %></p>
+        <p class="card-text"> Describe: <%= product.describe %></p>
+        <p class="card-text"> Price : <%= product.price %></p>
+     
+        <p class="card-text"> Product_Type:  <%= product.product_type_name %></p>
+        <a href="/product/<%= product.slug%>" method="GET" class="btn btn-primary">View more</a>
       </div>
     </div>
     <% }); %>

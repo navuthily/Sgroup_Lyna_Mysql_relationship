@@ -251,22 +251,22 @@
                         <td><%= user.username %></td>
                         <td><%= user.email %></td>
                         <td><%= user.id %></td>
-                        <td> <a href="/user/<%=user.id%>" method="GET"> view user </a></td>
+                        <td> <a href="/user/<%= user.slug%>" method="GET"> view user </a></td>
 
                         <td>
                             <!-- Button trigger modal -->
                             <button type="button" class="btn btn-primary" data-toggle="modal"
-                                data-target="#staticBackdropEdit<%= user.id%>">
+                                data-target="#staticBackdropEdit<%= user.slug%>">
                                 Edit user
                             </button>
 
                             <!-- Modal edit user can co them phan input value -->
-                            <div class="modal fade" id="staticBackdropEdit<%= user.id%>" tabindex="-1" role="dialog"
+                            <div class="modal fade" id="staticBackdropEdit<%= user.slug%>" tabindex="-1" role="dialog"
                                 aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
 
                                     <form class="modal-content" role="form" method="POST"
-                                        action="/edit/<%= user.id%>">
+                                        action="/edit/<%= user.slug%>">
                                         <div class="modal-header">
                                             <h5 class="modal-title" id="exampleModalLabel">Edit user</h5>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -315,7 +315,7 @@
                                 aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
 
-                                    <form class="modal-content" role="form" method="POST" action="/del/<%= user.id %>"
+                                    <form class="modal-content" role="form" method="POST" action="/del/<%= user.slug %>"
                                         enctype="application/x-www-form-urlencoded">
                                         <div class="modal-header">
                                             <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>

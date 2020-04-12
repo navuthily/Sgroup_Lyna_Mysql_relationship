@@ -1,5 +1,6 @@
 const createError = require('http-errors');
 var bodyParser = require('body-parser')
+
 const methodOverride = require('method-override');
 const express = require('express');
 const path = require('path');
@@ -14,7 +15,7 @@ const {
 
 const app = express();
 
-const adminRouter = require('./routes/admin');
+//const adminRouter = require('./routes/admin');
 
 const usersRouter = require('./routes/index');
 // view engine setup
@@ -45,7 +46,7 @@ app.use(sessionModules);
 //flash
 app.use(flash());
 // Setting up routers
-app.use('/admin', adminRouter);
+//app.use('/admin', adminRouter);
 app.use('/', usersRouter);
 
 // catch 404 and forward to error handler

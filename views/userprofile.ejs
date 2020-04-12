@@ -255,10 +255,10 @@
                             <td><%= user.id %></td>
                             <td> <a href="" method="GET"> view user </a></td>
     
-                            <td><a href="" class=" button edit-button" data-toggle="modal" data-user="<%= user.id %>"
+                            <td><a href="" class=" button edit-button" data-toggle="modal" data-user="<%= user.slug %>"
                                     data-target="#edit-user">Edit</a>
                             </td>
-                            <td><a href="" class="button edit-button" data-toggle="modal" data-user="<%= user.id %>"
+                            <td><a href="" class="button edit-button" data-toggle="modal" data-user="<%= user.slug%>"
                                     data-target="#delete-user"> Delete</a></td>
                         </tr>
                     <% } %>

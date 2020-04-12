@@ -2,6 +2,7 @@ const saltRounds = 10;
 const { validationResult} = require('express-validator');
 const bcrypt = require('bcrypt');
 const knex = require('../../../database/connection');
+const slugify = require('slugify')
 const getUsers = async (req, res) => {
   const users = await knex('users').select('*');
   res.render('users/users', {
@@ -58,6 +59,7 @@ const postRegister = async (req, res) => {
       fullname: req.body.fullname,
       username: req.body.username,
       password: hashPassword,
+      slug: slugify(req.body.username +Date.now()),
     }).asCallback((error) => {
       if (error !== null && error.code === 'ER_DUP_ENTRY') {
         req.flash('errors', { param: 'email', msg: 'This email is already taken' });
@@ -78,11 +80,11 @@ const postLogout = (req, res) => {
 const getUser = (req, res) => {
   res.render('users/user');
 };
-// ko hieu noi cho nay
+
 const getUserId = async (req, res) => {
   const user = await knex('users')
     .where({
-      id: req.params.id,
+      slug: req.params.slug,
     })
     .select('*')
     .first();
@@ -93,11 +95,12 @@ const getUserId = async (req, res) => {
 // edit user dang sua ne
 const userEdit = async (req, res) => {
   await knex('users').where({
-    id: req.params.id,
+    slug: req.params.slug,
   }).update({
     fullname: req.body.fullname,
     username: req.body.username,
     email: req.body.email,
+    slug:slugify(req.body.username +Date.now()),
   });
   return res.redirect('/users');
 };
@@ -105,7 +108,7 @@ const userEdit = async (req, res) => {
 const deleteUserId = async function (req, res) {
   await knex('users')
     .where({
-      id: req.params.id,
+      slug: req.params.slug,
     }, true)
     .del();
   return res.redirect('/users');
@@ -113,7 +116,7 @@ const deleteUserId = async function (req, res) {
 const getDelId = async function (req, res) {
   await knex('users')
     .where({
-      id: req.params.id,
+      slug: req.params.slug,
     })
     .del();
   return res.redirect('/users');
@@ -132,9 +135,147 @@ const postAdd = async (req, res) => {
     username: req.body.username,
     email: req.body.email,
     password: hashedPassword,
+    slug:slugify(req.body.username +Date.now()),
   });
   return res.redirect('/users');
 };
+
+
+
+//get product_type
+const getProduct_type= async function (req, res) {
+
+  const products_type = await knex('Product_type').leftJoin('users', 'Product_type.user_id ', 'users.id')
+    .select('product_type.id as id',
+      'product_type_name',
+      'username',
+      'product_type.slug as slug');
+  res.render('product_type', {
+    title: 'product_type',
+    products_type
+  });
+}
+
+const getProducts= async function (req, res) {
+  const products = await knex('products')
+    .leftJoin('users', 'products.user_id', 'users.id')
+    .leftJoin('Product_type', 'Products.product_type_id ', 'Product_type.id')
+    .select('products.id as id',
+      'product_name',
+      'price',
+      'describe',
+      'product_type_name',
+      'username', 'path_img', 'products.slug as slug',
+    );
+
+  res.render('users/viewsp', {
+    title: 'products',
+    products
+  });
+}
+// edit user
+
+
+const getProductAdd=  async function (req, res) {
+  res.render('users/create_sp', {
+    title: 'product'
+  });
+}
+const postProductAdd= async function (req, res) {
+  const {
+    originalname
+  } = req.file;
+  await knex('Products').insert({
+
+    product_name: req.body.product_name,
+    describe: req.body.describe,
+    price: req.body.price,
+    product_type_id: req.body.product_type_id,
+    user_id: req.session.user.id,
+    path_img: originalname,
+    slug: slugify(req.body.product_name + Date.now()),
+
+  });
+
+  return res.redirect('/products');
+
+}
+const getProductTypeAdd=async function (req, res) {
+  res.render('users/create_typesp', {
+    title: 'product_type'
+  });
+};
+const postProductTypeAdd=async function (req, res) {
+
+  await knex('Product_type').insert({
+    user_id: req.session.user.id,
+    product_type_name: req.body.product_type_name,
+    slug: slugify(req.body.product_type_name + Date.now()),
+
+  });
+  return res.redirect('/product_type');
+
+}
+const getProductSlug= async (req, res) => {
+  const product = await knex('products')
+    .where({
+      slug: req.params.slug,
+    })
+    .select('*')
+    .first();
+  return res.render('view_product_by_params', {
+    product,
+  });
+}
+const editProductSlug=async (req, res) => {
+  await knex('products').where({
+    slug: req.params.slug,
+  }).update({
+    product_name: req.body.product_name,
+    describe: req.body.describe,
+    price: req.body.price,
+    slug: slugify(req.body.product_name + Date.now())
+  });
+  return res.redirect('/products');
+}
+const deleteProductSlug=async function (req, res) {
+  await knex('products')
+    .where({
+      slug: req.params.slug,
+    })
+    .del();
+  return res.redirect('/products');
+}
+
+const getProduct_typeSlug=async (req, res) => {
+  const product_type = await knex('product_type')
+    .where({
+      slug: req.params.slug,
+    })
+    .select('*')
+    .first();
+
+  return res.render('view_product_type_by_params', {
+    product_type,
+  });
+}
+const editProductTypeSlug= async (req, res) => {
+  await knex('product_type').where({
+    slug: req.params.slug
+  }).update({
+    product_type_name: req.body.product_type_name,
+    slug: slugify(req.body.product_type_name + Date.now()),
+  });
+  return res.redirect('/product_type');
+}
+const deleteProductTypeSlug=async function (req, res) {
+  await knex('product_type')
+    .where({
+      slug: req.params.slug,
+    })
+    .del();
+  return res.redirect('/product_type');
+  }
 module.exports = {
   getUsers,
   getLogin,
@@ -149,4 +290,18 @@ module.exports = {
   userEdit,
   postAdd,
   getAdd,
+  slugify,
+  getProduct_type,
+  getProducts,
+  getProductAdd,
+  postProductAdd,
+  getProductTypeAdd,
+  postProductTypeAdd,
+  getProductSlug,
+  editProductSlug,
+  deleteProductSlug,
+  getProduct_typeSlug,
+  editProductTypeSlug,
+  deleteProductTypeSlug
+
 };

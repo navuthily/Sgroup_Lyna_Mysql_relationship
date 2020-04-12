@@ -8,6 +8,7 @@ exports.up = (knex) => {
       .inTable('users').onDelete('CASCADE').onUpdate('CASCADE');
     table.timestamp('created_at').defaultTo(knex.fn.now());
     table.timestamp('updated_at').defaultTo(knex.raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
+    table.string('slug', 255).notNullable().unique();
   });
 };
 exports.down = (knex) => {

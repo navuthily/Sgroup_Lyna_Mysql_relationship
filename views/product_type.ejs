@@ -109,20 +109,20 @@
             <td><%= product_type.id%></td>
             <td><%= product_type.product_type_name%></td>
             <td><%= product_type.username%></td>
-            <td> <a href="/product_type/<%=product_type.id%>" method="GET"> view product_type </a></td>
+            <td> <a href="/product_type/<%=product_type.slug%>" method="GET"> view product_type </a></td>
             <td>
               <!-- Button trigger modal -->
               <button type="button" class="btn btn-primary" data-toggle="modal"
-                data-target="#staticBackdropEdit<%= product_type.id %>">
+                data-target="#staticBackdropEdit<%= product_type.slug %>">
                 Edit product_type
               </button>
 
               <!-- Modal edit product can co them phan input value -->
-              <div class="modal fade" id="staticBackdropEdit<%= product_type.id %>" tabindex="-1" role="dialog"
+              <div class="modal fade" id="staticBackdropEdit<%= product_type.slug %>" tabindex="-1" role="dialog"
                 aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
 
-                  <form class="modal-content" role="form" method="POST" action="/edit/<%= product_type.id %>"><!-- ?_method=PUT -->
+                  <form class="modal-content" role="form" method="POST" action="/edit/product_type/<%= product_type.slug %>"><!-- ?_method=PUT -->
                     <div class="modal-header">
                       <h5 class="modal-title" id="exampleModalLabel">Edit product_type</h5>
                       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -162,7 +162,7 @@
                 aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
 
-                  <form class="modal-content" role="form" method="POST" action="/del/product_type/<%= product_type.id %>"
+                  <form class="modal-content" role="form" method="POST" action="/del/product_type/<%= product_type.slug%>"
                     enctype="application/x-www-form-urlencoded">
                     <div class="modal-header">
                       <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>

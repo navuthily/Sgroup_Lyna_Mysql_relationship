@@ -13,20 +13,16 @@
       margin-top: 40px;
       padding: 0 10px;
     }
-
     .clickable {
       cursor: pointer;
     }
-
     .panel-heading div {
       margin-top: -18px;
       font-size: 15px;
     }
-
     .panel-heading div span {
       margin-left: 5px;
     }
-
     .panel-body {
       display: none;
     }
@@ -36,7 +32,6 @@
   <script type="text/javascript">
     window.alert = function () {};
     var defaultCSS = document.getElementById('bootstrap-css');
-
     function changeCSS(css) {
       if (css) $('head > link').filter(':first').replaceWith('<link rel="stylesheet" href="' + css +
         '" type="text/css" />');
@@ -120,19 +115,16 @@
               <img src="/products/<%= product.path_img %>" width="50px" height="50px">
             </td>
             <td> <a href="/product/<%= product.id%>" method="GET"> view product </a></td>
-
             <td>
               <!-- Button trigger modal -->
               <button type="button" class="btn btn-primary" data-toggle="modal"
                 data-target="#staticBackdropEdit<%= product.id %>">
                 Edit product
               </button>
-
               <!-- Modal edit product can co them phan input value -->
               <div class="modal fade" id="staticBackdropEdit<%= product.id %>" tabindex="-1" role="dialog"
                 aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
-
                   <form class="modal-content" role="form" method="POST" action="/edit/<%= product.id %>">
                     <!-- ?_method=PUT-->
                     <div class="modal-header">
@@ -142,7 +134,6 @@
                       </button>
                     </div>
                     <div class="modal-body">
-
                       <div class="form-group">
                         <label for="exampleInputEmail1">Product name</label>
                         <input type="text" class="form-control" name="product_name" placeholder="">
@@ -162,23 +153,19 @@
                       <button type="submit" class="btn btn-primary">Update</button>
                     </div>
                   </form>
-
                 </div>
               </div>
             </td>
-
             <td>
               <!-- modal delete-->
               <!-- Button trigger modal -->
               <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModaldelete">
                 Delete
               </button>
-
               <!-- Modal -->
               <div class="modal fade" id="exampleModaldelete" tabindex="-1" role="dialog"
                 aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
-
                   <form class="modal-content" role="form" method="POST" action="/del/product/<%= product.id%>"
                     enctype="application/x-www-form-urlencoded">
                     <div class="modal-header">
@@ -193,7 +180,6 @@
                     <div class="modal-footer">
                       <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                       <input type="hidden" name="_method" value="DELETE">
-
                       <button type="submit" class="btn btn-primary">Delete</button>
                     </div>
                   </form>
@@ -207,7 +193,6 @@
       </table>
     </div>
   </div>
-
   </div>
   <script type="text/javascript">
     /**
@@ -232,7 +217,6 @@
                 target = $this.attr('data-filters'),
                 $target = $(target),
                 $rows = $target.find('tbody tr');
-
               if (search == '') {
                 $rows.show();
               } else {
@@ -253,15 +237,12 @@
       });
       $('[data-action="filter"]').filterTable();
     })(jQuery);
-
     $(function () {
       // attach table filter plugin to inputs
       $('[data-action="filter"]').filterTable();
-
       $('.container').on('click', '.panel-heading span.filter', function (e) {
         var $this = $(this),
           $panel = $this.parents('.panel');
-
         $panel.find('.panel-body').slideToggle();
         if ($this.css('display') != 'none') {
           $panel.find('.panel-body input').focus();
@@ -270,9 +251,6 @@
       $('[data-toggle="tooltip"]').tooltip();
     })
   </script>
-
-
   <div id="eJOY__extension_root" style="all: unset;"></div>
 </body>
-
 </html>

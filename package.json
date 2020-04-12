@@ -24,11 +24,13 @@
     "multer": "^1.4.2",
     "mysql": "^2.18.1",
     "path": "^0.12.7",
+    "slugify": "^1.4.0",
+    "speakingurl": "^14.0.1",
     "util": "^0.12.2"
   },
   "devDependencies": {
     "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.1.0",
-    "eslint-plugin-import": "^2.20.1"
+    "eslint-plugin-import": "^2.20.2"
   }
 }
