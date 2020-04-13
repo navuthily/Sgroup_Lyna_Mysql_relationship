@@ -15,7 +15,7 @@ const {
 
 const app = express();
 
-const usersRouter = require('./routes/index');
+const usersRouter = require('./routes/clients');
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -27,8 +27,7 @@ app.use(express.urlencoded({
 }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-// app.use('/static', express.static('public'))
-// app.use(methodOverride('_method'));
+
 app.use(express.urlencoded({ extended: false }));
 app.use(methodOverride((req) => {
   if (req.body && typeof req.body === 'object' && '_method' in req.body) {
@@ -43,8 +42,6 @@ app.set('trust proxy', 1); // trust first proxy
 app.use(sessionModules);
 // flash
 app.use(flash());
-// Setting up routers
-// app.use('/admin', adminRouter);
 app.use('/', usersRouter);
 
 // catch 404 and forward to error handler

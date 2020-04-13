@@ -5,7 +5,7 @@ const router = express.Router();
 const {
   userAuth,
   userIsNotAuth,
-} = require('../app/middleware/users/auth.middleware');
+} = require('../app/Clients/Auth/middleware/auth.middleware');
 
 const {
   getUsers,
@@ -20,7 +20,9 @@ const {
   userEdit,
   postAdd,
   getAdd,
-  getProductType,
+ 
+} = require('../app/Clients/Auth/Controllers/users/Auth.controller');
+const { getProductType,
   getProducts,
   getProductAdd,
   postProductAdd,
@@ -31,18 +33,16 @@ const {
   deleteProductSlug,
   getProductTypeSlug,
   editProductTypeSlug,
-  deleteProductTypeSlug,
-} = require('../app/Controllers/users/Auth.controller');
-
+  deleteProductTypeSlug,}=require('../app/Clients/Products/Controller/Product.controller')
 const {
   loginValidation,
   registerValidation,
-} = require('../app/middleware/users/Validator.middleware');
+} = require('../app/Clients/Auth/middleware/Validator.middleware');
 
 
 const {
   uploadMulter,
-} = require('../app/models/multer');
+} = require('../app/Clients/Products/models/multer');
 // view list users
 router.get('/users', userAuth, getUsers);
 
